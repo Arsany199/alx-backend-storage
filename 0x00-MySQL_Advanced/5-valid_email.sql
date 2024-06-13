@@ -1,4 +1,5 @@
 -- change the email if it have been updated
+DELIMITER $$
 CREATE TRIGGER validate_email
 BEFORE UPDATE ON users
 FOR EACH ROW
@@ -8,3 +9,5 @@ BEGIN
     ELSE
         SET NEW.valid_email = NEW.valid_email;
     END IF;
+END $$
+DELIMITER ;
