@@ -1,3 +1,4 @@
+-- calculate average weight score for students
 DELIMITER $$
 CREATE PROCEDURE ComputeAverageWeightedScoreForUser(user_id INT)
 BEGIN
