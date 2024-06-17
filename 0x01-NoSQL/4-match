@@ -1,0 +1,2 @@
+// script list all docs. in the collection with name holberton
+db.school.find({name: "Holberton school"});
