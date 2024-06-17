@@ -1,2 +1,2 @@
 // delete all docs in collection with name holberton
-db.school.deletemany({name: "Holberton school"})
+db.school.deleteMany({name: "Holberton school"})
