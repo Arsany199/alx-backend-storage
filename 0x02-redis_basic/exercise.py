@@ -6,6 +6,33 @@ import redis
 import uuid
 
 
+def count_calls(method: Callable) -> Callable:
+    """takes a single method Callable argument and returns a Callable"""
+    @wraps(method)
+    def wrapper(self, *args, **kwds):
+        """def wrapper"""
+        key_name = method.__qualname__
+        self._redis.incr(key_name, 0) + 1
+        return method(self, *args, **kwds)
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """store the history of inputs and outputs for a particular function
+    Everytime the original function will be called"""
+    key = method.__qualname__
+    i = "".join([key, ":inputs"])
+    o = "".join([key, ":outputs"])
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """def wrapp"""
+        self._redis.rpush(i, str(args))
+        res = method(self, *args, **kwargs)
+        self._redis.rpush(o, str(res))
+        return res
+    return wrapper
+
+
 class Cache:
     """Cache class"""
     def __init__(self):
